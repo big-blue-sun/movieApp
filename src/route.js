@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
-import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { SafeAreaView ,Dimensions} from 'react-native';
+import { NavigationContainer,  } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Ionicons from "react-native-vector-icons/Ionicons"
@@ -8,6 +8,7 @@ import HomeScreen from "./screens/Home/home";
 import DetailScreen from "./screens/Details/details"
 import Profile from "./screens/Profile/profile"
 
+const w=Dimensions.get("window").width
 const HomeStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const Tabs = ({ navigation }) => (
@@ -16,7 +17,8 @@ const Tabs = ({ navigation }) => (
         activeColor="#ff4757"
         inactiveColor="#a4b0be"
         shifting={true}
-        barStyle={{ backgroundColor: '#f1f2f6' }}
+        barStyle={{ backgroundColor: 'white',height:w*0.12}}
+        
     >
         <Tab.Screen name="Home" component={HomeScreen}
             options={({ route }) => ({
@@ -47,7 +49,7 @@ export default class route extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: "#2f3542" }}>
+            <SafeAreaView style={{ flex: 1, }}>
                 <NavigationContainer>
                     <HomeStack.Navigator
                         screenOptions={{

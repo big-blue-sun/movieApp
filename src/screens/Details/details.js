@@ -18,21 +18,22 @@ export default class details extends Component {
         super(props);
         this.state = {
             movie: this.props.route.params.movie,
-            favMovie: [],
             genres: this.props.route.params.genre,
+            favMovie: [],
             detail: [],
-            language: "",
+            cast: [],
+            crew: [],
             loadingDetail: false,
             isCollaps: false,
-            cast: [],
-            crew: []
+            language: "",         
         };
 
     }
     componentDidMount() {
         this.getDetail()
-
     }
+
+
     getDetail() {
         const { movie } = this.state;
         this.setState({
@@ -49,7 +50,6 @@ export default class details extends Component {
                 this.setState({
                     detail: res.data,
                     language: languageArr,
-
                 })
                 this.getDeepDetail()
             }
@@ -110,6 +110,12 @@ export default class details extends Component {
             this.props.MainStore.favMovie = this.props.MainStore.favMovie.replaceAll(`${item.id}` + "+", "")
         })
     }
+    calculateDuration(duration) {
+        var hours = parseInt((duration / 60));
+        var minute = duration % 60
+        return `${hours}` + "h" + "  " + `${minute}` + "m"
+    }
+    ////////////////////////////  UI  ///////////////////////////////////////
     renderHeader() {
         return (
             <View style={style.headerContainer} >
@@ -148,55 +154,41 @@ export default class details extends Component {
 
 
     }
-    calculateDuration(duration) {
-        var hours = parseInt((duration / 60));
-        var minute = duration % 60
-
-        return `${hours}` + "h" + "  " + `${minute}` + "m"
-    }
     renderMovieinfo() {
         const { detail, language } = this.state;
-
-
         return (
             <View style={styleMovieinfo.upView}>
+
 
                 <View style={styleMovieinfo.duration}>
                     <View>
                         <Text style={{ color: "#2f3542", fontSize: w * 0.05, fontWeight: "600" }}>Duration</Text>
                         <Text style={{ marginTop: w * 0.03, color: "#57606f", fontSize: w * 0.06, fontWeight: "400" }}>
                             {this.calculateDuration(detail.runtime)}</Text>
-
                     </View>
-
                 </View>
+
+
                 <View style={styleMovieinfo.Genre}>
                     <View>
                         <Text style={{ color: "#2f3542", fontSize: w * 0.05, fontWeight: "600" }}>Genre</Text>
                         {this.setGenres(this.state.movie)}
-
                     </View>
-
                 </View>
+
+
                 <View style={styleMovieinfo.Language}>
                     <View>
                         <Text style={{ color: "#2f3542", fontSize: w * 0.05, fontWeight: "600" }}>Language</Text>
                         <ScrollView >
                             <Text style={{ marginTop: w * 0.03, color: "#57606f", fontSize: `${language}`.length < 20 ? w * 0.05 : w * 0.04, fontWeight: "400", textAlign: "" }}>{language}</Text>
-
                         </ScrollView>
-
-
-
                     </View>
-
                 </View>
 
+
             </View>
-
         )
-
-
     }
     renderSynopsis() {
         const { detail, isCollaps } = this.state;
@@ -224,7 +216,6 @@ export default class details extends Component {
             </View>
         )
     }
-
     renderMainCast() {
 
         const { cast } = this.state;
@@ -251,14 +242,13 @@ export default class details extends Component {
         )
 
     }
-
     renderMainCastItem(item) {
 
         return (
             <View style={maincastStyle.imageView}  >
                 <Image borderRadius={100} style={{ width: w * 0.23, height: w * 0.23, }} source={{ uri: `https://image.tmdb.org/t/p/w500/${item.item.profile_path}` }}>
                 </Image>
-                <Text style={maincastStyle.castName}>{`${item.item.name}`.length > 15 ? `${item.item.name}`.substring(0, 12) + "..." : item.item.name}</Text>
+                <Text style={maincastStyle.castName}>{`${item.item.name}`.length>15?`${item.item.name}`.substring(0,12)+"...":item.item.name}</Text>
             </View>)
     }
     renderMainCrew() {
@@ -275,6 +265,7 @@ export default class details extends Component {
 
 
                 <FlatList
+
                     data={crew}
                     renderItem={this.renderMainCrewItem}
                     numColumns={3}
@@ -291,7 +282,7 @@ export default class details extends Component {
             <View style={maincastStyle.imageView}  >
                 <Image borderRadius={100} style={{ width: w * 0.23, height: w * 0.23, }} source={{ uri: `https://image.tmdb.org/t/p/w500/${item.item.profile_path}` }}>
                 </Image>
-                <Text style={maincastStyle.castName}>{`${item.item.name}`.length > 15 ? `${item.item.name}`.substring(0, 12) + "..." : item.item.name}</Text>
+                <Text style={maincastStyle.castName}>{`${item.item.name}`.length>15?`${item.item.name}`.substring(0,12)+"...":item.item.name}</Text>
             </View>)
     }
     render() {
@@ -304,7 +295,8 @@ export default class details extends Component {
                     {
                         !loadingDetail ?
                             <View>
-                                {this.renderMovieinfo()
+                                {
+                                    this.renderMovieinfo()
                                 }
                                 {
                                     this.renderSynopsis()
@@ -313,19 +305,15 @@ export default class details extends Component {
                                     this.renderMainCast()
                                 }
                                 {
-
                                     this.renderMainCrew()
                                 }
-
                             </View>
                             : <View style={{ justifyContent: "center", alignItems: "center", height: w, }}>
                                 <ActivityIndicator color="#ff4757" size="large"></ActivityIndicator>
                             </View>
                     }
-
                     <View style={{ height: 50 }}></View>
                 </ScrollView>
-
             </SafeAreaView>
         );
     }
@@ -336,7 +324,6 @@ const maincastStyle = StyleSheet.create({
         marginTop: w * 0.02,
         marginHorizontal: w * 0.05,
         alignItems: "center"
-
     },
     title: {
         fontSize: w * 0.05,
@@ -352,22 +339,17 @@ const maincastStyle = StyleSheet.create({
         alignItems: "center"
     },
     castName: {
-        color: "#747d8c",
-        marginTop: 3
-
+        color:"#747d8c",
+        marginTop:3
     }
-
-
 })
 
 const synopsisStyle = StyleSheet.create({
 
     container: {
-
-
         marginHorizontal: w * 0.05
-
     },
+
     title: {
         fontSize: w * 0.05,
         justifyContent: "center",
@@ -394,14 +376,7 @@ const synopsisStyle = StyleSheet.create({
         color: "#ff4757",
         fontSize: w * 0.04,
         fontWeight: "700"
-
-
-
     }
-
-
-
-
 })
 
 const styleMovieinfo = StyleSheet.create({

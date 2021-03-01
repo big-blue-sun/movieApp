@@ -13,13 +13,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import AS from "@react-native-async-storage/async-storage"
 import axios from "axios"
 import { observer, inject } from 'mobx-react';
-import { BaseManager } from "../../../sql/database";
+
 const w = Platform.OS == "ios" ? Dimensions.get("window").width : Dimensions.get("window").width * 1.1;
 const h = Platform.OS == "ios" ? Dimensions.get("window").height : Dimensions.get("window").height * 1.1;
 @inject('MainStore')
 @observer
 export default class home extends Component {
-	manager = new BaseManager();
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,6 +39,10 @@ export default class home extends Component {
 		this.setConfig()
 		this.getData()
 	}
+
+
+
+	
 	fadeAnim() {
 		this.opacity.setValue(1)
 		Animated.timing(
@@ -101,15 +105,12 @@ export default class home extends Component {
 			})
 			alert(err)
 		})
-
-
 	}
 	setGenres(item) {
 		const { genres } = this.state;
 		var allGenres = []
 		for (let index = 0; index < item.genre_ids.length; index++) {
 			genres.forEach((element) => {
-
 				if (index == item.genre_ids.length - 1) {
 					if (item.genre_ids[index] == element.id) {
 						allGenres.push(element.name)
@@ -119,8 +120,6 @@ export default class home extends Component {
 						allGenres.push(element.name + " / ")
 					}
 				}
-
-
 			})
 		}
 		return (<View><Text style={renderGridItemStyle.subtitle2}>{allGenres}</Text></View>)
@@ -173,34 +172,30 @@ export default class home extends Component {
 	searchFilter = text => {
 		const newData = this.state.moviesData.filter(item => {
 			const listItem = `${item.original_title.toLowerCase()}`
-
 			return listItem.indexOf(text.toLowerCase()) > -1;
 		})
 		if (newData.length == 0) {
 			this.setState({
 				moviesFilterData: [{
 					"name": "0",
-
-
-
 				}]
-
 			});
 		} else {
 			this.setState({
 				moviesFilterData: newData
-
 			});
 		}
 
 	}
+
+
+////////////////////////////  UI  ///////////////////////////////////////
+
 	renderSearchBar = () => {
 		const { text } = this.state;
 		return (
-
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<TextInput
-
 					onChangeText={
 						text => {
 							this.setState({
@@ -214,12 +209,11 @@ export default class home extends Component {
 					value={text}
 					style={style.serachinput}
 					placeholder=" Search...">
-
 				</TextInput>
-
 			</View>
 		)
 	}
+
 	renderHeader() {
 		return (
 			<View style={style.headerContainer} >
@@ -227,6 +221,7 @@ export default class home extends Component {
 				<Text style={{ height: 0, }}>{this.props.MainStore.favMovie.substring(0, 0)}</Text>
 			</View>);
 	}
+
 	renderInfoBar() {
 		const { isGrid, loadingGrid } = this.state;
 		return (
@@ -257,25 +252,6 @@ export default class home extends Component {
 
 			</View>
 		)
-
-	}
-	renderImages(item) {
-		var flag = false
-		this.state.favMovie.forEach((element) => {
-			if (element.movieid == item.id) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-		})
-		if (flag) {
-			return (<Image source={require("../../../assets1/icons1/like.png")} style={renderGridItemStyle.likeimage}></Image>
-			)
-		} else {
-			return (<Image source={require("../../../assets1/icons1/unlike.png")} style={renderGridItemStyle.likeimage}></Image>
-			)
-		}
-
 
 	}
 	renderGridItems(item) {
@@ -326,7 +302,6 @@ export default class home extends Component {
 	}
 	renderNonGridItems(item) {
 		return (
-
 			<TouchableOpacity onPress={() => {
 				this.props.navigation.navigate("Details", {
 					"movie": item,
@@ -362,8 +337,6 @@ export default class home extends Component {
 					</View>
 				</View>
 			</TouchableOpacity>
-
-
 		)
 	}
 	render() {

@@ -10,7 +10,7 @@ export default class profile extends Component {
 
   render() {
     return (
-      <View style={{alignItems:"center",justifyContent:"center"}}>
+      <View style={{alignItems:"center",justifyContent:"center",flex:1,backgroundColor: "white",}}>
         <Text> User Profile </Text>
       </View>
     );
