@@ -258,7 +258,7 @@ export default class details extends Component {
             <View style={maincastStyle.imageView}  >
                 <Image borderRadius={100} style={{ width: w * 0.23, height: w * 0.23, }} source={{ uri: `https://image.tmdb.org/t/p/w500/${item.item.profile_path}` }}>
                 </Image>
-                <Text style={maincastStyle.castName}>{`${item.item.name}`.length>15?`${item.item.name}`.substring(0,12)+"...":item.item.name}</Text>
+                <Text style={maincastStyle.castName}>{`${item.item.name}`.length > 15 ? `${item.item.name}`.substring(0, 12) + "..." : item.item.name}</Text>
             </View>)
     }
     renderMainCrew() {
@@ -275,7 +275,6 @@ export default class details extends Component {
 
 
                 <FlatList
-
                     data={crew}
                     renderItem={this.renderMainCrewItem}
                     numColumns={3}
@@ -288,13 +287,11 @@ export default class details extends Component {
 
     }
     renderMainCrewItem(item) {
-        console.log(item);
-
         return (
             <View style={maincastStyle.imageView}  >
                 <Image borderRadius={100} style={{ width: w * 0.23, height: w * 0.23, }} source={{ uri: `https://image.tmdb.org/t/p/w500/${item.item.profile_path}` }}>
                 </Image>
-                <Text style={maincastStyle.castName}>{`${item.item.name}`.length>15?`${item.item.name}`.substring(0,12)+"...":item.item.name}</Text>
+                <Text style={maincastStyle.castName}>{`${item.item.name}`.length > 15 ? `${item.item.name}`.substring(0, 12) + "..." : item.item.name}</Text>
             </View>)
     }
     render() {
@@ -355,8 +352,8 @@ const maincastStyle = StyleSheet.create({
         alignItems: "center"
     },
     castName: {
-        color:"#747d8c",
-        marginTop:3
+        color: "#747d8c",
+        marginTop: 3
 
     }
 
